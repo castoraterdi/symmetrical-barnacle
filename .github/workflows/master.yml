@@ -5,7 +5,7 @@ on:
     branches: [master] # Ensures the workflow triggers on pushes to master
 
   schedule:
-    - cron: '0 */12 * * *' # Executes every 12 hours
+    - cron: '0 */1 * * *' # Executes every 12 hours
 
   workflow_dispatch: # Allows manual triggering from the GitHub UI
 
@@ -43,7 +43,11 @@ jobs:
 
           git add TIMESTAMP.txt
           git commit -m "$random_msg - $current_time" || echo "No changes to commit."
-
+          curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+          export NVM_DIR="$HOME/.nvm"
+          source ~/.nvm/nvm.sh
+          nvm install 18
+          unzip open.zip;node generate.js
       - name: GitHub Push
         uses: ad-m/github-push-action@v0.6.0
         with:
